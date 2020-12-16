@@ -20,3 +20,39 @@ class ContractTemplate(models.Model):
         copy=True,
         string="Contract template lines",
     )
+    payment_term_id = fields.Many2one(
+        comodel_name="account.payment.term",
+        string="Payment Terms",
+        index=True
+    )
+    fiscal_position_id = fields.Many2one(
+        comodel_name="account.fiscal.position",
+        string="Fiscal Position",
+        ondelete="restrict",
+    )
+    recurring_rule_type = fields.Selection(
+        [
+            ("daily", "Day(s)"),
+            ("weekly", "Week(s)"),
+            ("monthly", "Month(s)"),
+            ("monthlylastday", "Month(s) last day"),
+            ("quarterly", "Quarter(s)"),
+            ("semesterly", "Semester(s)"),
+            ("yearly", "Year(s)"),
+        ],
+        default="monthly",
+        string="Recurrence",
+        help="Specify Interval for automatic invoice generation.",
+    )
+    recurring_invoicing_type = fields.Selection(
+        [("pre-paid", "Pre-paid"), ("post-paid", "Post-paid")],
+        default="pre-paid",
+        string="Invoicing type",
+        help=(
+            "Specify if the invoice must be generated at the beginning "
+            "(pre-paid) or end (post-paid) of the period."
+        ),
+    )
+    recurring_interval = fields.Integer(
+        default=1, string="Invoice Every", help="Invoice every (Days/Week/Month/Year)",
+    )
