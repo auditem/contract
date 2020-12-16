@@ -6,7 +6,7 @@
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
             <field name="partner_id" position="after" >
-                <field name="contract_template_id"/>
+                <field name="contract_template_id" groups="contract.can_access_contract"/>
             </field>
         </field>
     </record>

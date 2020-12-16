@@ -6,7 +6,7 @@
         parent="sale.sale_order_menu"
         action="contract.action_customer_contract"
         sequence="2"
-        groups="sales_team.group_sale_salesman"
+        groups="contract.can_access_contract"
     />
     <record id="contract_contract_form_view" model="ir.ui.view">
         <field name="name">contract.contract.form.contract.sale</field>

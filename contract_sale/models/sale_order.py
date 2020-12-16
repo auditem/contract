@@ -12,15 +12,15 @@ class SaleOrder(models.Model):
         string='Modelos de Contrato')
     
     def action_confirm(self):
-        if self.contract_template_id:
+        if self.contract_template_id and any(self.order_line.mapped('product_id').mapped('can_rental')):
             self.action_create_contract()
 
         return super().action_confirm()
 
     def action_create_contract(self):
         contract_env = self.env['contract.contract']
-        contract = contract_env.create(self.get_contract_vals())
-        contract.flush()
+        if not contract_env.search_count([('sale_order_id', '=', self.id)]):
+            contract = contract_env.create(self.get_contract_vals())
         
     def get_contract_vals(self):
         name = "CT{}".format(self.name[2:])
@@ -34,6 +34,7 @@ class SaleOrder(models.Model):
             'recurring_interval': self.contract_template_id.recurring_interval,
             'recurring_invoicing_type': self.contract_template_id.recurring_invoicing_type,
             'recurring_rule_type': self.contract_template_id.recurring_rule_type,
+            'sale_order_id': self.id,
             'name': name,
             'company_id': self.company_id.id,
             'contract_line_fixed_ids': self.get_contract_line_vals()
@@ -43,6 +44,8 @@ class SaleOrder(models.Model):
     def get_contract_line_vals(self):
         lines = []
         for line in self.order_line:
+            if not line.product_id.can_rental:
+                continue
             line_vals = {}
             line_vals = {
                 'product_id': line.product_id.id,

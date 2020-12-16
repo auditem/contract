@@ -28,6 +28,10 @@ class ContractContract(models.Model):
     group_id = fields.Many2one(
         string="Group", comodel_name="account.analytic.account", ondelete="restrict",
     )
+    sale_order_id = fields.Many2one(
+        comodel_name='sale.order',
+        string='Pedido Origem')
+    
     currency_id = fields.Many2one(
         compute="_compute_currency_id",
         inverse="_inverse_currency_id",

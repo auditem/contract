@@ -103,6 +103,7 @@
                     <group name="main">
                         <group>
                             <field name="commercial_partner_id" invisible="1" />
+                            <field name="sale_order_id" readonly="1" />
                             <field
                                 name="partner_id"
                                 required="1"
@@ -512,6 +513,7 @@
             <tree>
                 <field name="name" string="Name" />
                 <field name="code" />
+                <field name="sale_order_id"/>
                 <field name="journal_id" groups="account.group_account_user" />
                 <field name="partner_id" />
                 <field name="active" invisible="1" />
