@@ -7,7 +7,7 @@
     "category": "Sales",
     "author": "Tecnativa, " "Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/contract",
-    "depends": ["sale", "contract", "product"],
+    "depends": ["sale", "contract", "product", "sale_management"],
     "development_status": "Production/Stable",
     "data": [
         "security/ir.model.access.csv",
